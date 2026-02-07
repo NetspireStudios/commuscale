@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="scroll-smooth dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Commuscale: The Community Flywheel</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Syne:wght@700;800&amp;family=Bungee&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6E95F8", // The requested blue
+                        secondary: "#2563EB", // Deeper blue/indigo
+                        "background-dark": "#05000A",
+                    },
+                    fontFamily: {
+                        display: ["Bungee", "cursive"],
+                        accent: ["Syne", "sans-serif"],
+                        body: ["Space Grotesk", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px",
+                    },
+                    animation: {
+                        'float': 'float 8s ease-in-out infinite',
+                        'float-delayed': 'float 8s ease-in-out 4s infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                        'marquee-reverse': 'marquee-reverse 25s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-40px) scale(1.1)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        'marquee-reverse': {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0%)' },
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --plyr-color-main: #6E95F8;
+        }
+        .neo-shadow-blue {
+            box-shadow: 8px 8px 0px 0px #6E95F8;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .neo-shadow-blue:hover {
+            box-shadow: 4px 4px 0px 0px #6E95F8;
+            transform: translate(4px, 4px);
+        }
+        .grid-pattern {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(110, 149, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(110, 149, 248, 0.05) 1px, transparent 1px);
+        }
+        .brutalist-border {
+            border: 4px solid white;
+        }
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .text-overlap {
+            text-shadow: 6px 6px 0px #2563EB;
+        }
+        
+        /* Plyr Customization to fit theme */
+        .plyr--video {
+            border: 4px solid white;
+            box-shadow: 8px 8px 0px 0px #6E95F8;
+        }
+        .plyr__control--overlaid {
+            background: #6E95F8;
+        }
+        .plyr__control--overlaid:hover {
+            background: #2563EB;
+        }
+
+        /* Flywheel Styles */
+        .flywheel-circle {
+            border: 4px solid #6E95F8;
+            border-radius: 50%;
+            position: relative;
+        }
+        .flywheel-item {
+            position: relative;
+        }
+        .flywheel-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #6E95F8;
+            border-radius: 50%;
+        }
+
+        /* Gradient Blobs */
+        .gradient-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.6;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .blob-blue {
+            background: radial-gradient(circle, #6E95F8 0%, rgba(110, 149, 248, 0) 70%);
+        }
+        .blob-indigo {
+            background: radial-gradient(circle, #2563EB 0%, rgba(37, 99, 235, 0) 70%);
+        }
+
+        /* Marquee Strip */
+        .marquee-strip {
+            background: #6E95F8;
+            color: black;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 1rem 0;
+            border-top: 4px solid white;
+            border-bottom: 4px solid white;
+            position: relative;
+            z-index: 20;
+        }
+        
+        /* Jagged Divider */
+        .jagged-divider {
+            width: 100%;
+            height: 40px;
+            background-color: transparent;
+            background-image: linear-gradient(45deg, #05000A 25%, transparent 25%), 
+                              linear-gradient(-45deg, #05000A 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #05000A 75%), 
+                              linear-gradient(-45deg, transparent 75%, #05000A 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-body selection:bg-primary selection:text-white overflow-x-hidden tracking-wide">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-[100] px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between brutalist-border bg-black/90 backdrop-blur-md px-8 py-3 neo-shadow-blue">
+            <div class="flex items-center gap-2">
+                <img alt="CS Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAprEYnZjw5FOPxx0DnownzB2rt3C2lUNSKlQ_AEbEy1R4ct1eDRegHFurAbu1ALz0gAxzLX-w64nNhiznBsu3TAVCj3b7eWy2WX0OjHBAvn9yzNmuWTa671FND-0jA_b24BZwwT5hXFNwqYONGPDEvipFcT7zQUi4ggVvI7WfzdX2rgzYwrOz5SEcDlYYX8KabGabSQGCfeU4k8_BaHzcHRq93XRfZvhrrwpqmLDvaBGb3w11uWlZCEQ3kxjFlLVIDp862XP--ESxA"/>
+                <span class="font-display text-xl tracking-tighter">COMMUSCALE</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-accent font-extrabold uppercase text-xs tracking-[0.2em]">
+                <a class="hover:text-primary transition-colors" href="#lies">The Lies</a>
+                <a class="hover:text-primary transition-colors" href="#wins">Wins</a>
+                <a class="hover:text-primary transition-colors" href="#flywheel">Flywheel</a>
+                <a class="hover:text-primary transition-colors" href="#apply">Takeover</a>
+            </div>
+            <a class="bg-white text-black px-6 py-2 font-accent font-black text-xs brutalist-border hover:bg-primary hover:text-white transition-all" href="#apply">
+                BOOK NOW
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header / Hero with VSL -->
+    <header class="relative min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 grid-pattern overflow-hidden">
+        <!-- Gradient Blobs (Enhanced) -->
+        <div class="gradient-blob blob-blue w-[800px] h-[800px] -top-40 -left-40 animate-float opacity-50"></div>
+        <div class="gradient-blob blob-indigo w-[600px] h-[600px] bottom-0 right-0 animate-float-delayed opacity-50"></div>
+
+        <div class="max-w-7xl mx-auto w-full relative z-10">
+            <div class="reveal-up text-center mb-12">
+                <h1 class="font-display text-3xl md:text-5xl leading-tight mb-8 uppercase tracking-tighter text-overlap max-w-5xl mx-auto relative z-10">
+                    The "Community Flywheel" System For Coaches & Consultants To Scale To <span class="text-primary italic">$100k/mo</span> Without Burnout.
+                </h1>
+                
+                <!-- VSL Section with Plyr -->
+                <div class="max-w-4xl mx-auto mb-12 relative z-20">
+                    <div class="plyr__video-embed" id="player">
+                        <iframe
+                            src="https://www.youtube.com/embed/2PuFyjAs7JA?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency
+                            allow="autoplay"
+                        ></iframe>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center gap-8 relative z-10">
+                    <h2 class="font-display text-2xl md:text-3xl leading-tight max-w-2xl">
+                        STOP CHASING LEADS. <br/>
+                        <span class="text-primary">BUILD A SELF-SCALING EMPIRE.</span>
+                    </h2>
+                    <a href="#apply" class="bg-primary text-white px-12 py-6 text-2xl font-display neo-shadow-blue hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all uppercase brutalist-border inline-block">
+                        BOOK NOW
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Divider -->
+    <div class="marquee-strip">
+        <div class="flex animate-marquee whitespace-nowrap font-display text-4xl">
+            <span class="mx-8">DOMINATE YOUR MARKET</span> • <span class="mx-8">SCALE TO $100K/MO</span> • <span class="mx-8">NO BURNOUT</span> • <span class="mx-8">COMMUNITY FLYWHEEL</span> • <span class="mx-8">DOMINATE YOUR MARKET</span> • <span class="mx-8">SCALE TO $100K/MO</span> • <span class="mx-8">NO BURNOUT</span> • <span class="mx-8">COMMUNITY FLYWHEEL</span> •
+        </div>
+    </div>
+
+    <!-- The Three Lies Section -->
+    <section class="py-24 px-6 bg-background-dark text-white relative" id="lies">
+        <!-- Background Glow -->
+        <div class="gradient-blob blob-blue w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-4">
+                <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tighter text-primary">THE 3 LIES</h2>
+                <p class="font-accent font-black text-xl md:text-2xl uppercase italic underline decoration-4 decoration-primary">That Kill Growth</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Lie #1 -->
+                <div class="bg-black/80 backdrop-blur-sm text-white brutalist-border p-8 neo-shadow-blue reveal-up hover:-translate-y-2 transition-transform duration-500">
+                    <div class="font-display text-4xl mb-4 text-primary">LIE #01</div>
+                    <h3 class="font-display text-2xl mb-4 uppercase">"CREATE CONTENT NON-STOP"</h3>
+                    <p class="text-sm font-bold opacity-70 mb-4">THE ILLUSION: If you create enough, you'll go viral.</p>
+                    <p class="text-base leading-snug">
+                        <span class="text-primary font-bold">THE REALITY:</span> With a small audience, organic takes 6-12 months. You become a hostage to algorithms.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-gray-800">
+                        <p class="text-sm font-bold text-primary">OUR FIX: Growth via human networks is 10x faster than algorithms.</p>
+                    </div>
+                </div>
+
+                <!-- Lie #2 -->
+                <div class="bg-black/80 backdrop-blur-sm text-white brutalist-border p-8 neo-shadow-blue reveal-up hover:-translate-y-2 transition-transform duration-500" style="transition-delay: 0.2s;">
+                    <div class="font-display text-4xl mb-4 text-primary">LIE #02</div>
+                    <h3 class="font-display text-2xl mb-4 uppercase">"JUST PAY FOR ADS"</h3>
+                    <p class="text-sm font-bold opacity-70 mb-4">THE ILLUSION: Invest in ads and growth is guaranteed.</p>
+                    <p class="text-base leading-snug">
+                        <span class="text-primary font-bold">THE REALITY:</span> Ads get expensive. ROAS drops. You're renting an audience, not building ownership.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-gray-800">
+                        <p class="text-sm font-bold text-primary">OUR FIX: Ads are an accelerator, not a pillar. We use Partnerships & Referrals.</p>
+                    </div>
+                </div>
+
+                <!-- Lie #3 -->
+                <div class="bg-black/80 backdrop-blur-sm text-white brutalist-border p-8 neo-shadow-blue reveal-up hover:-translate-y-2 transition-transform duration-500" style="transition-delay: 0.4s;">
+                    <div class="font-display text-4xl mb-4 text-primary">LIE #03</div>
+                    <h3 class="font-display text-2xl mb-4 uppercase">"CHOOSE A TINY NICHE"</h3>
+                    <p class="text-sm font-bold opacity-70 mb-4">THE ILLUSION: Smaller niche = less competition.</p>
+                    <p class="text-base leading-snug">
+                        <span class="text-primary font-bold">THE REALITY:</span> Micro-niches have limited caps. You become small and indefensible.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-gray-800">
+                        <p class="text-sm font-bold text-primary">OUR FIX: Choose a broad market and create multiple products within it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jagged Divider -->
+    <div class="bg-primary py-4">
+        <div class="jagged-divider"></div>
+    </div>
+
+    <!-- Wins Section -->
+    <section class="py-32 px-6 bg-primary text-black relative overflow-hidden" id="wins">
+        <!-- Gradient Blobs -->
+        <div class="gradient-blob bg-white w-[600px] h-[600px] top-0 right-0 opacity-20 blur-[120px]"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="mb-24 reveal-up">
+                <h2 class="font-display text-7xl md:text-9xl uppercase leading-none mb-6">THE WINS</h2>
+                <div class="w-32 h-4 bg-black mb-8"></div>
+                <p class="font-accent text-xl font-bold max-w-2xl">Undeniable proof of domination. Empty frames waiting for your success story.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Empty Frame 1 -->
+                <div class="aspect-[4/5] brutalist-border bg-white/10 flex flex-col items-center justify-center p-8 text-center group hover:bg-black hover:text-white transition-all duration-500 reveal-up neo-shadow-blue border-black hover:scale-[1.02]">
+                    <span class="material-symbols-outlined text-6xl mb-4 transition-colors group-hover:text-primary">image</span>
+                    <p class="font-display text-xl">WIN SLOT #01</p>
+                    <p class="font-accent text-sm mt-2 font-bold">Reserved for your 10x growth</p>
+                </div>
+
+                <!-- Empty Frame 2 -->
+                <div class="aspect-[4/5] brutalist-border bg-white/10 flex flex-col items-center justify-center p-8 text-center group hover:bg-black hover:text-white transition-all duration-500 reveal-up neo-shadow-blue border-black hover:scale-[1.02]" style="transition-delay: 0.1s;">
+                    <span class="material-symbols-outlined text-6xl mb-4 transition-colors group-hover:text-primary">image</span>
+                    <p class="font-display text-xl">WIN SLOT #02</p>
+                    <p class="font-accent text-sm mt-2 font-bold">Reserved for your market takeover</p>
+                </div>
+
+                <!-- Empty Frame 3 -->
+                <div class="aspect-[4/5] brutalist-border bg-white/10 flex flex-col items-center justify-center p-8 text-center group hover:bg-black hover:text-white transition-all duration-500 reveal-up neo-shadow-blue border-black hover:scale-[1.02]" style="transition-delay: 0.2s;">
+                    <span class="material-symbols-outlined text-6xl mb-4 transition-colors group-hover:text-primary">image</span>
+                    <p class="font-display text-xl">WIN SLOT #03</p>
+                    <p class="font-accent text-sm mt-2 font-bold">Reserved for your legacy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Divider Reverse -->
+    <div class="marquee-strip bg-black text-white border-primary">
+        <div class="flex animate-marquee-reverse whitespace-nowrap font-display text-4xl">
+            <span class="mx-8">SYSTEMS OVER CHAOS</span> • <span class="mx-8">RESULTS OVER HYPE</span> • <span class="mx-8">COMMUSCALE</span> • <span class="mx-8">SYSTEMS OVER CHAOS</span> • <span class="mx-8">RESULTS OVER HYPE</span> • <span class="mx-8">COMMUSCALE</span> •
+        </div>
+    </div>
+
+    <!-- Flywheel Section -->
+    <section class="py-32 px-6 bg-background-dark text-white relative overflow-hidden" id="flywheel">
+        <!-- Gradient Blobs -->
+        <div class="gradient-blob blob-blue w-[1000px] h-[1000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 animate-pulse-slow"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="mb-20 text-center reveal-up">
+                <h2 class="font-display text-4xl md:text-6xl uppercase leading-none mb-6">COMMUNITY FLYWHEEL</h2>
+                <p class="font-accent text-xl opacity-70 max-w-3xl mx-auto">
+                    Why Funnels Are Obsolete: A circular, self-amplifying, and perpetual engine.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <!-- Left Column -->
+                <div class="flex-1 space-y-12">
+                    <div class="reveal-up text-right hover:-translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">ENGAGED COMMUNITY</h3>
+                        <p class="opacity-80">Active members who participate, interact, and create mutual value. This is the foundation.</p>
+                    </div>
+                    <div class="reveal-up text-right hover:-translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">NEW MEMBERS</h3>
+                        <p class="opacity-80">Through referrals, affiliates, and partners. The cycle restarts, but amplified.</p>
+                    </div>
+                    <div class="reveal-up text-right hover:-translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">REFERRALS</h3>
+                        <p class="opacity-80">Advocates bring qualified friends. Organic, high-quality growth with zero acquisition cost.</p>
+                    </div>
+                </div>
+
+                <!-- Center Graphic -->
+                <div class="w-80 h-80 md:w-96 md:h-96 shrink-0 relative flex items-center justify-center reveal-up">
+                    <div class="absolute inset-0 border-[4px] border-primary/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                    <div class="absolute inset-4 border-[4px] border-primary/60 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="bg-primary/10 w-full h-full rounded-full flex items-center justify-center backdrop-blur-sm shadow-[0_0_50px_rgba(110,149,248,0.3)]">
+                            <span class="material-symbols-outlined text-8xl text-primary animate-pulse">all_inclusive</span>
+                        </div>
+                    </div>
+                    <!-- Orbiting Icons -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black p-2 rounded-full border border-primary shadow-[0_0_20px_#6E95F8]">
+                        <span class="material-symbols-outlined text-primary">groups</span>
+                    </div>
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-black p-2 rounded-full border border-primary shadow-[0_0_20px_#6E95F8]">
+                        <span class="material-symbols-outlined text-primary">campaign</span>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="flex-1 space-y-12">
+                    <div class="reveal-up hover:translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">CONTENT + FEEDBACK</h3>
+                        <p class="opacity-80">Real conversations generate deep insights into needs, desires, and objections. Pure gold.</p>
+                    </div>
+                    <div class="reveal-up hover:translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">OFFER IMPROVEMENT</h3>
+                        <p class="opacity-80">Direct feedback allows continuous improvement. Each iteration increases perceived value.</p>
+                    </div>
+                    <div class="reveal-up hover:translate-x-2 transition-transform duration-300">
+                        <h3 class="font-display text-2xl text-primary mb-2">GREATER VALUE</h3>
+                        <p class="opacity-80">Better offers lead to bigger transformations. Satisfied customers become passionate advocates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Apply Section -->
+    <footer class="bg-primary text-black py-20 px-6 border-t-8 border-white relative overflow-hidden" id="apply">
+        <!-- Gradient Blobs -->
+        <div class="gradient-blob bg-white w-[600px] h-[600px] -bottom-20 -right-20 opacity-30 blur-[100px]"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <h2 class="font-display text-5xl md:text-7xl mb-6 tracking-tighter text-white text-overlap">
+                STOP USING TERRIBLE SYSTEMS.
+            </h2>
+            <p class="font-accent font-black text-xl md:text-2xl uppercase mb-12 max-w-3xl mx-auto">
+                Work with us and 10x through modern marketing teachings.
+            </p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-16">
+                <!-- Removed arrows as requested -->
+                <button class="bg-black text-white px-12 py-6 font-display text-2xl brutalist-border hover:bg-white hover:text-black transition-all neo-shadow-blue uppercase scale-110 hover:scale-125 duration-300">
+                    BOOK YOUR CALL NOW
+                </button>
+            </div>
+
+            <div class="flex justify-center gap-8 mb-8">
+                <!-- X (Twitter) Icon -->
+                <a href="#" class="group bg-white p-3 rounded-lg brutalist-border hover:bg-black transition-all duration-300 hover:-translate-y-1 w-12 h-12 flex items-center justify-center">
+                    <svg class="w-6 h-6 fill-black group-hover:fill-white transition-colors" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                    </svg>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="#" class="group bg-white p-3 rounded-lg brutalist-border hover:bg-black transition-all duration-300 hover:-translate-y-1 w-12 h-12 flex items-center justify-center">
+                    <svg class="w-6 h-6 fill-black group-hover:fill-white transition-colors" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.416 2.045c.636-.247 1.363-.416 2.427-.465C8.901 1.534 9.28 1.524 12.315 2zm-.975 2.166c-2.596 0-2.922.008-3.938.056-.995.045-1.54.23-1.905.374a2.69 2.69 0 00-1.003.65 2.69 2.69 0 00-.65 1.003c-.144.362-.329.91-.374 1.904-.047 1.022-.057 1.342-.057 4.02v.092c0 2.587.01 2.922.057 3.938.045.995.23 1.54.374 1.905a2.69 2.69 0 00.65 1.003 2.69 2.69 0 001.003.65c.362.144.91.329 1.904.374 1.022.048 1.342.057 4.02.057h.092c2.587 0 2.922-.01 3.938-.057.995-.045 1.54-.23 1.905-.374a2.69 2.69 0 001.003-.65 2.69 2.69 0 00.65-1.003c.144-.362.329-.91.374-1.904.048-1.022.057-1.342.057-4.02v-.092c0-2.587-.01-2.922-.057-3.938-.045-.995-.23-1.54-.374-1.905a2.69 2.69 0 00-.65-1.003 2.69 2.69 0 00-1.003-.65c-.362-.144-.91-.329-1.904-.374-1.022-.047-1.342-.057-4.02-.057zm1.896 4.078a5.574 5.574 0 11-5.94 9.597 5.574 5.574 0 015.94-9.597zM12.25 9.73a3.408 3.408 0 100 6.816 3.408 3.408 0 000-6.816zm6.527-4.625a1.44 1.44 0 110 2.88 1.44 1.44 0 010-2.88z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+            <p class="text-xs font-bold opacity-60 uppercase tracking-widest">© 2026 COMMUSCALE</p>
+        </div>
+    </footer>
+
+    <!-- Plyr JS -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Plyr
+            const player = new Plyr('#player', {
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                youtube: { noCookie: false, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+            });
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
